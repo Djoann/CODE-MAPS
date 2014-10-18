@@ -1,0 +1,99 @@
+
+USING FUSION TABLE API AS A APP DATABASE :
+http://susanemcgregor.com/using-google-fusion-tables-as-a-web-application-database/
+
+
+!!!!!!!!!!!!! TODO : REGISTER APP? NOT - SHOULD WORKS : REQUEST API FOR ROWS
+https://www.googleapis.com/fusiontables/v1/query?sql=SELECT%20ROWID%20FROM%201KNdzcwlY90Y1x84OAdHyqobarzwHl5TzBPUpA_Hp
+
+SEARCHBAR BUILDER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+http://fusion-tables-api-samples.googlecode.com/svn/trunk/FusionTablesLayerWizard/src/index.html
+
+
+DIRECTION FROM MY LOCATION ! 
+https://developers.google.com/fusiontables/docs/samples/infowindow_driving_directions
+
+TEST QUERY FUSION TABEL :
+http://developers.google.com/apis-explorer/#p/fusiontables/v1/fusiontables.query.sql?sql=*+FROM&hdrs=true&_h=8&
+
+
+CWU MEMBERS REGISTERED YES:NO 
+https://developers.google.com/fusiontables/docs/samples/change_query
+
+
+WORKING SIDEBAR FUSION TABLE : 
+http://www.geocodezip.com/v3_SO_FusionTable_badQueryB.html
+
+
+
+MAP + SIDEBAR FUSIO TABLE :
+
+OK
+http://www.geocodezip.com/geoxml3_test/v3_FusionTables_query_sidebarF_local.html?country=Italy
+
+OK : 
+http://www.geocodezip.com/v3_fusiontables_watershed_stewards_map_sidebar.html
+
+
+http://www.personal.psu.edu/jed124/read_xml_w_sidebar.htm
+
+http://www.birdtheme.org/useful/sub/kmlwithv3.php?mine=Philippines
+
+
+
+
+FORM TO FUSION TABLE :
+http://fusion-tables-api-samples.googlecode.com/svn/trunk/FusionTablesFormSync/docs/reference.html
+
+LIST TABLES ALREADY
+https://www.googleapis.com/fusiontables/v1/tables/1KNdzcwlY90Y1x84OAdHyqobarzwHl5TzBPUpA_Hp/columns?key=AIzaSyAm9yWCV7JPCTHCJut8whOjARd7pwROFDQ&%22name%22=%22city%22
+
+
+Bubbles different co working spaces
+http://tympanus.net/codrops/2014/01/07/shape-hover-effect-with-svg/
+
+
+
+
+MOXY WEBSITE
+http://tympanus.net/Tutorials/VerticalShowcaseSlider/
+
+
+
+RETRIEVE DB VIA API
+https://developers.google.com/fusiontables/docs/v1/reference/column/list#try-it
+
+
+
+MAP + DATAVIZ - FUSIION TABLE API TUTO
+https://developers.google.com/fusiontables/docs/samples/adv_fusiontables
+
+
+MAP DATAVIZ , CANVAS + LEGEND : 
+https://developers.google.com/fusiontables/docs/samples/dynamic_styling_template
+
+
+
+NEAREST CO WORKING SPACE (Lat, Lng)
+https://developers.google.com/fusiontables/docs/samples/nn_example
+
+////////////////////////////////////////////////////////
+
+		//Change Popp up content depends of a query on DB
+		https://developers.google.com/fusiontables/docs/samples/change_infowindow_content
+
+		(If number, show number/ if register, show register)
+
+        google.maps.event.addListener(layer, 'click', function(e) {
+
+          // Change the content of the InfoWindow
+          e.infoWindowHtml = e.row['Store Name'].value + "<br>";
+
+          // If the delivery == yes, add content to the window
+          if (e.row['delivery'].value == 'yes') {
+            e.infoWindowHtml += "Delivers!";
+          }
+        });
+
+
+////////////////////////////////////////////////////////

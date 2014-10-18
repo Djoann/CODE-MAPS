@@ -1,0 +1,176 @@
+
+      <!DOCTYPE html>
+     <html>
+   <head>
+     <title>Google Maps JavaScript API v3 Example: Map Simple</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+     <meta charset="utf-8">
+     <style>
+       html, body, #map {
+         margin: 0;
+         padding: 0;
+         height: 100%;
+       }
+     </style>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<!--Load the AJAX API-->
+<script type="text/javascript" src="http://www.google.com/jsapi"></script> 
+    <script type="text/javascript" >
+// var tableId = "1zELV0V48On-5c8aqKM_PD2cMQtfy4hByyR5o8sQ";
+var tableId = "1KNdzcwlY90Y1x84OAdHyqobarzwHl5TzBPUpA_Hp";
+ // my version "1t1QYYwy5AXgaV0biCpHwzh4cVM0iv0aVyBVHNAo"'
+var geocoder = new google.maps.Geocoder();
+var FusionTablesData = null;
+google.load('visualization', '1', {'packages':['table']});
+var map;
+var markers = [];
+var infoWindow = new google.maps.InfoWindow();
+
+function initialize() {
+var istanbul = new google.maps.LatLng(41.049, 28.991);
+
+map = new google.maps.Map(document.getElementById('map_canvas'), {
+center: istanbul,
+zoom: 4,
+mapTypeId: google.maps.MapTypeId.ROADMAP
+});
+
+var FTlayer = new google.maps.FusionTablesLayer({query:{from:tableId}, map:map});
+
+// Hotels, Location, Phone, Url
+var queryStr = "SELECT City, Space, Contact FROM "+tableId+" ORDER BY City";
+document.getElementById('info').innerHTML += queryStr +"<br>";
+var queryText = encodeURIComponent(queryStr);
+
+  var query = new google.visualization.Query('http://www.google.com/fusiontables/gvizdata?tq='  + queryText);
+
+//OK
+console.log("queryStr",queryStr);
+
+//NOT OK :
+query.send(getData);
+
+}
+
+function getData(response) {
+if (!response) {
+  alert('no response');
+  return;
+}
+if (response.isError()) {
+  alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+  return;
+} 
+FusionTablesData = response.getDataTable();  
+var dt = FusionTablesData
+
+//OK Data from Fusion Table : 
+console.log("dt:", dt)
+
+//YEAHHHHH
+
+var side_html = '<table style="border-collapse: collapse" border="1" \
+                   cellpadding="5"> \
+                   <thead> \
+                     <tr style="background-color:#e0e0e0"> \
+                       <th>Co Working Spaces</th> \
+                     </tr> \
+                   </thead> \
+                   <tbody>';
+document.getElementById('info').innerHTML += "rows="+dt.getNumberOfRows()+"<br>";
+
+// Hotels, Location, Phone, Url
+////NOW PARSING
+
+
+for (var i = 0; i < dt.getNumberOfRows(); i++) {
+  var  City = dt.getValue(i,1);
+  var  Space = dt.getValue(i,2);
+  var Contact = dt.getValue(i,0);
+  //var url = dt.getValue(i,3);
+
+  var html = "<strong><a href='"+Contact+"'>" + Space + "</a></strong><br />";
+  html += City + "<br/>";
+  //html += phone + "<br/>";
+  side_html += '<tr> \
+                  <td><a href="javascript:myclick(' + i + ')">' + City + '</a></td> \
+                </tr>';
+
+
+  // geocodeMarker(location, html, i);
+
+}
+
+////1111111
+
+side_html += '</tbody> \
+            </table>';
+document.getElementById("side_bar").innerHTML = side_html;
+}
+
+function geocodeMarker(City, html, i, click) {
+  geocoder.geocode({address:City}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      markers[i] = createMarker(results[0].geometry.location, html)
+      if (click) google.maps.event.trigger(markers[i], 'click');
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
+
+function createMarker(point,info) {
+  var myMarkerOpts = {
+    position: point,
+    icon: { url: "https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle.png",
+      size: new google.maps.Size(7,7),
+      anchor: new google.maps.Point(4,4)
+    } /*,
+    map: map */
+  };
+
+  var marker = new google.maps.Marker(myMarkerOpts);
+
+  google.maps.event.addListener(marker, 'click', function() {
+    infoWindow.close();
+    infoWindow.setContent(info);
+    infoWindow.setPosition(point);
+    infoWindow.open(map); 
+  });
+  return marker;
+}
+
+function myclick(num) {
+  var dt = FusionTablesData; 
+  if (!markers[num]) {
+    var  City = dt.getValue(num,1);
+    var  Space = dt.getValue(num,2);
+    var Contact = dt.getValue(num,0);
+
+    //var url = dt.getValue(num,3);
+    var html = "<strong><a href='"+Contact+"'>" + Space + "</a></strong><br />";
+    if (!!City) html += City + "<br/>";
+    if (!!Space) html += Space + "<br/>";
+    geocodeMarker(City, html, num, true);
+  } else {
+    google.maps.event.trigger(markers[num], "click");
+  }
+}
+</script>
+
+   <body onload="initialize();">
+<table border="1"><tr><td>
+     <div id="map_canvas" style="width:600px;height:500px;"></div>
+     </td><td>
+     <div id="side_bar" style="width:200px;height:500px; overflow: auto;"></div>
+</td></tr></table>
+
+<div id="info"></div>
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"> 
+</script> 
+<script type="text/javascript"> 
+_uacct = "UA-162157-1";
+urchinTracker();
+</script> 
+   </body>
+ </html>
